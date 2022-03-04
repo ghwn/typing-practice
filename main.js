@@ -83,6 +83,7 @@ function createResultReport() {
         incorrect = 0;
         userInput.value = "";
         userInput.disabled = false;
+        userInput.focus();
     });
 
     resultReport.appendChild(title);

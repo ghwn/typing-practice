@@ -1,13 +1,16 @@
 const userInputForm = document.getElementById("user-input-form");
 const randomWord = document.getElementById("random-word");
 const countDown = document.getElementById("count-down");
-const givenTimeMs = 61000; // 61초 뒤
+const givenTimeMs = 31000; // 31초 뒤
 let endTime = Date.now() + givenTimeMs;
 const userInput = document.getElementById("user-input");
 const resultReport = document.getElementById("result-report");
+let words;
 
 let correct = 0;
 let incorrect = 0;
+
+let countDownId;
 
 userInputForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -25,44 +28,13 @@ userInputForm.addEventListener("submit", (event) => {
 });
 
 function getRandomWord() {
-    const words = [
-        "apple",
-        "ball",
-        "cat",
-        "dog",
-        "elephant",
-        "fish",
-        "grapes",
-        "hen",
-        "inkpot",
-        "jug",
-        "kite",
-        "lion",
-        "monkey",
-        "nest",
-        "orange",
-        "peacock",
-        "queen",
-        "rose",
-        "swan",
-        "telephone",
-        "umbrella",
-        "van",
-        "watch",
-        "xylophone",
-        "yak",
-        "zebra",
-    ];
     return words[Math.floor(Math.random() * words.length)];
 }
-
-randomWord.innerText = getRandomWord();
 
 function updateCountDown() {
     const remainingTime = endTime - Date.now();
     countDown.innerText = `${parseInt(remainingTime / 1000)}초`;
 }
-let countDownId = setInterval(updateCountDown, 1000);
 
 function timeoutEvent() {
     console.log("Stop!");
@@ -71,8 +43,6 @@ function timeoutEvent() {
 
     createResultReport();
 }
-
-setTimeout(timeoutEvent, givenTimeMs);
 
 function createResultReport() {
     const title = document.createElement("h2");
@@ -87,7 +57,7 @@ function createResultReport() {
     if (correct + incorrect === 0) {
         correctRatio.innerText = "0%";
     } else {
-        correctRatio.innerText = `${(correct / (correct + incorrect)) * 100}%`;
+        correctRatio.innerText = `${((correct / (correct + incorrect)) * 100).toFixed(2)}%`;
     }
 
     const numCorrectLabel = document.createElement("h3");
@@ -102,6 +72,7 @@ function createResultReport() {
     correctRatioLabel.appendChild(correctRatio);
 
     const restartButton = document.createElement("button");
+    restartButton.id = "restart-button";
     restartButton.type = "button";
     restartButton.innerText = "재시작";
     restartButton.addEventListener("click", () => {
@@ -122,3 +93,12 @@ function createResultReport() {
     resultReport.appendChild(correctRatioLabel);
     resultReport.appendChild(restartButton);
 }
+
+(async () => {
+    countDownId = setInterval(updateCountDown, 1000);
+    setTimeout(timeoutEvent, givenTimeMs);
+    userInput.focus();
+    const response = await fetch("https://random-word-api.herokuapp.com/word?number=100");
+    words = await response.json();
+    randomWord.innerText = words[0];
+})();

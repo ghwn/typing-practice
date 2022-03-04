@@ -6,13 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>타자연습</title>
+  <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
 </head>
 
 <body>
-  <h2>타자연습</h2>
+  <h2 id="title">타자연습</h2>
 
-  <div>
+  <div class="count-down">
     <h3>남은 시간: <span id="count-down"></span></h3>
   </div>
 
@@ -20,7 +21,7 @@
   <div id="random-word"></div>
 
   <form id="user-input-form">
-    <input type="text" id="user-input" name="user-input">
+    <input type="text" id="user-input" name="user-input" autocomplete="off">
   </form>
 
   <div id="result-report"></div>

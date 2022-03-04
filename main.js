@@ -24,7 +24,6 @@ userInputForm.addEventListener("submit", (event) => {
     }
     event.target[0].value = "";
     randomWord.innerText = getRandomWord();
-    console.log(`${correct} ${incorrect}`);
 });
 
 function getRandomWord() {
@@ -37,7 +36,6 @@ function updateCountDown() {
 }
 
 function timeoutEvent() {
-    console.log("Stop!");
     clearInterval(countDownId);
     userInput.disabled = true;
 
